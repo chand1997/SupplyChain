@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class SupplyChain extends Application {
     public static final int width= 700,height=600,headerBar=50;
     Pane bodyPane=new Pane();
     private GridPane headerBar(){
