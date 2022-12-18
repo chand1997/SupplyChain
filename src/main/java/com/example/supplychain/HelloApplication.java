@@ -3,6 +3,7 @@ package com.example.supplychain;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -13,6 +14,18 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
+    public static final int width= 700,height=600,headerBar=50;
+    Pane bodyPane=new Pane();
+    private GridPane headerBar(){
+        TextField searchField=new TextField();
+        Button searchButton=new Button("Search");
+
+        GridPane pane=new GridPane();
+        pane.add(searchField,0,0);
+        pane.add(searchButton,1,0);
+
+        return pane;
+    }
     private GridPane loginPage(){
         Label emailLabel=new Label("Email");
         Label passwordLabel=new Label("Password");
@@ -31,7 +44,12 @@ public class HelloApplication extends Application {
     }
     private Pane createContent(){
         Pane root=new Pane();
-        root.getChildren().addAll(loginPage());
+        root.setPrefSize(width,height+headerBar);
+        bodyPane.setMinSize(width,height);
+        bodyPane.setTranslateY(headerBar);
+        bodyPane.getChildren().addAll(loginPage());
+
+        root.getChildren().addAll(headerBar(),bodyPane);
         return root;
     }
     @Override
