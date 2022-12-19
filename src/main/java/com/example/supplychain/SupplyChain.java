@@ -19,6 +19,7 @@ public class SupplyChain extends Application {
     public static final int width= 700,height=600,headerBar=50;
     Pane bodyPane=new Pane();
     Login l=new Login();
+    ProductDetails productDetails=new ProductDetails();
     private GridPane headerBar(){
         TextField searchField=new TextField();
         Button searchButton=new Button("Search");
@@ -76,7 +77,7 @@ public class SupplyChain extends Application {
         root.setPrefSize(width,height+headerBar);
         bodyPane.setMinSize(width,height);
         bodyPane.setTranslateY(headerBar);
-        bodyPane.getChildren().addAll(loginPage());
+        bodyPane.getChildren().addAll(productDetails.getAllProducts());
 
         root.getChildren().addAll(headerBar(),bodyPane);
         return root;
