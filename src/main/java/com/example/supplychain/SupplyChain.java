@@ -22,6 +22,7 @@ public class SupplyChain extends Application {
     ProductDetails productDetails=new ProductDetails();
     Button globalLoginButton;
     Label customerEmailLabel=null;
+    String customerEmail=null;
     private GridPane headerBar(){
         TextField searchField=new TextField();
         Button searchButton=new Button("Search");
@@ -56,6 +57,42 @@ public class SupplyChain extends Application {
 
         return pane;
     }
+    private GridPane footerBar(){
+
+        Button addToCartButton=new Button("Add to Cart");
+        Button buyNowButton=new Button("Buy Now");
+        Label orderMessageLabel=new Label("");
+        buyNowButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                Product selectedProduct= productDetails.getSelectedProduct();
+
+                if(Order.placeOrder(customerEmail,selectedProduct)){
+                    orderMessageLabel.setText("Ordered");
+
+                }else{
+                    orderMessageLabel.setText("Order Failed");
+                }
+
+            }
+
+        });
+
+
+        GridPane pane=new GridPane();
+        pane.setMinSize(bodyPane.getMinWidth(),headerBar-10);
+        pane.setVgap(5);
+        pane.setHgap(50);
+        pane.setAlignment(Pos.CENTER);
+        pane.setTranslateY(headerBar+height);
+        pane.add(addToCartButton,0,0);
+        pane.add(buyNowButton,1,0);
+        pane.add(orderMessageLabel,2,0);
+
+
+        return pane;
+    }
     private GridPane loginPage(){
         Label emailLabel=new Label("Email");
         Label passwordLabel=new Label("Password");
@@ -72,8 +109,10 @@ public class SupplyChain extends Application {
 //                messageLabel.setText(email + " " + password);
                 if(l.customerLogin(email,password)){
                     messageLabel.setText("Login Successful");
-                    customerEmailLabel.setText("Welcome " + email);
+                    customerEmailLabel.setText("Welcome : " + email);
+                    customerEmail=email;
                     globalLoginButton.setDisable(true);
+                    bodyPane.getChildren().clear();
                     bodyPane.getChildren().add(productDetails.getAllProducts());
                 }else{
                     messageLabel.setText("Login Failed.... Incorrect credentials");
@@ -99,12 +138,12 @@ public class SupplyChain extends Application {
     }
     private Pane createContent(){
         Pane root=new Pane();
-        root.setPrefSize(width,height+headerBar);
+        root.setPrefSize(width,height+2*headerBar);
         bodyPane.setMinSize(width,height);
         bodyPane.setTranslateY(headerBar);
         bodyPane.getChildren().addAll(productDetails.getAllProducts());
 
-        root.getChildren().addAll(headerBar(),bodyPane);
+        root.getChildren().addAll(headerBar(),bodyPane,footerBar());
         return root;
     }
     @Override

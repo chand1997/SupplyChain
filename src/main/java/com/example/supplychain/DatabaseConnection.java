@@ -27,6 +27,16 @@ public class DatabaseConnection{
         }
         return null;
     }
+    public int executeUpdate(String query){
+        Statement statement=getStatement();
+        try{
+            return statement.executeUpdate(query);
+//            executeUpdate() method returns number of rows affected/changed,that's why return type is int.
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     public static void main(String[] args) {
         DatabaseConnection databaseConnection=new DatabaseConnection();

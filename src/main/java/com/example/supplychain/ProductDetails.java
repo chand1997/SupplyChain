@@ -66,4 +66,12 @@ public class ProductDetails {
 
 
     }
+    public Product getSelectedProduct(){
+        try{
+            return productTable.getSelectionModel().getSelectedItem();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
