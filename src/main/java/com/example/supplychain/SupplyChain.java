@@ -20,9 +20,29 @@ public class SupplyChain extends Application {
     Pane bodyPane=new Pane();
     Login l=new Login();
     ProductDetails productDetails=new ProductDetails();
+    Button globalLoginButton;
+    Label customerEmailLabel=null;
     private GridPane headerBar(){
         TextField searchField=new TextField();
         Button searchButton=new Button("Search");
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String productName=searchField.getText();
+
+                bodyPane.getChildren().clear();
+                bodyPane.getChildren().add(productDetails.getAllProductsByName(productName));
+            }
+        });
+        globalLoginButton=new Button("Login");
+        customerEmailLabel=new Label("Welcome User");
+        globalLoginButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                bodyPane.getChildren().clear();
+                bodyPane.getChildren().add(loginPage());
+            }
+        });
 
         GridPane pane=new GridPane();
         pane.setMinSize(bodyPane.getMinWidth(),headerBar-10);
@@ -31,6 +51,8 @@ public class SupplyChain extends Application {
         pane.setAlignment(Pos.CENTER);
         pane.add(searchField,0,0);
         pane.add(searchButton,1,0);
+        pane.add(globalLoginButton,2,0);
+        pane.add(customerEmailLabel,3,0);
 
         return pane;
     }
@@ -50,6 +72,9 @@ public class SupplyChain extends Application {
 //                messageLabel.setText(email + " " + password);
                 if(l.customerLogin(email,password)){
                     messageLabel.setText("Login Successful");
+                    customerEmailLabel.setText("Welcome " + email);
+                    globalLoginButton.setDisable(true);
+                    bodyPane.getChildren().add(productDetails.getAllProducts());
                 }else{
                     messageLabel.setText("Login Failed.... Incorrect credentials");
                 }

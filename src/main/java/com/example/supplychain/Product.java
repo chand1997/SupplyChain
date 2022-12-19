@@ -48,4 +48,22 @@ public class Product{
         return productList;
 
     }
+
+    public static ObservableList<Product> getAllProductsByName(String name){
+        DatabaseConnection databaseConnection=new DatabaseConnection();
+        ObservableList<Product> productList= FXCollections.observableArrayList();
+        String selectProducts=String.format("select * from product where lower(name) like '%%%s%%'",name.toLowerCase());
+        try{
+            ResultSet rs=databaseConnection.getQueryTable(selectProducts);
+            while(rs.next()){
+                productList.add(new Product(rs.getInt("product_id"),rs.getString("name"),
+                        rs.getDouble("price")));
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return productList;
+
+    }
 }
