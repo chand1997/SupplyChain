@@ -20,14 +20,18 @@ public class ProductDetails {
         TableColumn price=new TableColumn("PRICE");
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        ObservableList<Product> data= FXCollections.observableArrayList();
-        data.add(new Product(1,"Lenovo",97000.99));
+//        ObservableList<Product> data= FXCollections.observableArrayList();
+//        data.add(new Product(1,"Lenovo",97000.99));
+
+        ObservableList<Product> products=Product .getAllProducts();
 
         productTable=new TableView<>();
-        productTable.setItems(data);
+        productTable.setItems(products);
         productTable.getColumns().addAll(id,name,price);
-
+        productTable.setMinSize(SupplyChain.width,SupplyChain.height);
+        productTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         Pane tablePane=new Pane();
+        tablePane.setMinSize(SupplyChain.width,SupplyChain.height);
         tablePane.getChildren().add(productTable);
 
         return tablePane;
