@@ -18,19 +18,16 @@ public class Login{
 
     }
 //    this converts hashcode to Hex_string (string containing NUMBERS 0-9 and CHARS  a-f).
-    private String getEncryptedPassword(String password){
-       try{
-           BigInteger hashCodeNumber=new BigInteger(1,getSHA(password));
-           StringBuilder hexString=new StringBuilder(hashCodeNumber.toString(16));
-           return hexString.toString();
+    private String getEncryptedPassword(String password) {
+        try {
+            BigInteger hashCodeNumber = new BigInteger(1, getSHA(password));
+            StringBuilder hexString = new StringBuilder(hashCodeNumber.toString(16));
+            return hexString.toString();
 
-       }catch(Exception e){
-           e.printStackTrace();
-       }
-       return null;
-
-
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public boolean customerLogin(String mail, String pass){

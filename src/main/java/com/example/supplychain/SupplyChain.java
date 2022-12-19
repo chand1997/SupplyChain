@@ -18,9 +18,11 @@ import java.io.IOException;
 public class SupplyChain extends Application {
     public static final int width= 700,height=600,headerBar=50;
     Pane bodyPane=new Pane();
-    Login l=new Login();
+    Login login=new Login();
+    SignUp signUp=new SignUp();
     ProductDetails productDetails=new ProductDetails();
     Button globalLoginButton;
+    Button globalSignUpButton;
     Label customerEmailLabel=null;
     String customerEmail=null;
     private GridPane headerBar(){
@@ -37,11 +39,20 @@ public class SupplyChain extends Application {
         });
         globalLoginButton=new Button("Login");
         customerEmailLabel=new Label("Welcome User");
+
         globalLoginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 bodyPane.getChildren().clear();
                 bodyPane.getChildren().add(loginPage());
+            }
+        });
+        globalSignUpButton=new Button("SignUp");
+        globalSignUpButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                bodyPane.getChildren().clear();
+                bodyPane.getChildren().add(signUpPage());
             }
         });
 
@@ -54,6 +65,7 @@ public class SupplyChain extends Application {
         pane.add(searchButton,1,0);
         pane.add(globalLoginButton,2,0);
         pane.add(customerEmailLabel,3,0);
+        pane.add(globalSignUpButton,4,0);
 
         return pane;
     }
@@ -61,6 +73,7 @@ public class SupplyChain extends Application {
 
         Button addToCartButton=new Button("Add to Cart");
         Button buyNowButton=new Button("Buy Now");
+
         Label orderMessageLabel=new Label("");
         buyNowButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -107,7 +120,7 @@ public class SupplyChain extends Application {
                 String email=emailTextField.getText();
                 String password=passwordField.getText();
 //                messageLabel.setText(email + " " + password);
-                if(l.customerLogin(email,password)){
+                if(login.customerLogin(email,password)){
                     messageLabel.setText("Login Successful");
                     customerEmailLabel.setText("Welcome : " + email);
                     customerEmail=email;
@@ -132,6 +145,63 @@ public class SupplyChain extends Application {
         pane.add(passwordField,1,1);
         pane.add(loginButton,0,2);
         pane.add(messageLabel,1,2);
+
+        return pane;
+
+    }
+    private GridPane signUpPage(){
+        Label emailLabel=new Label("Email");
+        Label passwordLabel=new Label("Password");
+        Label firstNameLabel=new Label("First Name");
+        Label lastNameLabel=new Label("Last Name");
+        Label mobileLabel=new Label("MobileNumber");
+        Label messageLabel=new Label("");
+
+        TextField emailTextField=new TextField();
+        PasswordField passwordField=new PasswordField();
+        TextField firstNameTextField=new TextField();
+        TextField lastNameTextField=new TextField();
+        TextField mobileTextField=new TextField();
+        Button signUpButton=new Button("SignUp");
+        signUpButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent){
+
+                String email=emailTextField.getText();
+                String password=passwordField.getText();
+                String firstName=firstNameTextField.getText();
+                String lastName=lastNameTextField.getText();
+                String mobile=mobileTextField.getText();
+                if(signUp.addCustomer(email,password,firstName,mobile)){
+                    messageLabel.setText("SignUp Successful");
+
+                    globalSignUpButton.setDisable(true);
+                    bodyPane.getChildren().clear();
+                    bodyPane.getChildren().add(productDetails.getAllProducts());
+                }else{
+                    messageLabel.setText("SignUp Failed");
+                }
+
+            }
+        });
+
+        GridPane pane=new GridPane();
+        pane.setMinSize(bodyPane.getMinWidth(),bodyPane.getMinHeight());
+        pane.setVgap(5);
+        pane.setHgap(5);
+        pane.setAlignment(Pos.CENTER);
+        pane.add(emailLabel,0,0);
+        pane.add(emailTextField,1,0);
+        pane.add(passwordLabel,0,1);
+        pane.add(passwordField,1,1);
+        pane.add(firstNameLabel,0,2);
+        pane.add(firstNameTextField,1,2);
+        pane.add(lastNameLabel,0,3);
+        pane.add(lastNameTextField,1,3);
+        pane.add(mobileLabel,0,4);
+        pane.add(mobileTextField,1,4);
+        pane.add(signUpButton,0,5);
+        pane.add(messageLabel,1,5);
 
         return pane;
 
